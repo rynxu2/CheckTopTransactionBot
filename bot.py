@@ -35,7 +35,7 @@ async def process_contracts(extractor):
         contract_map = {item['contracts']: item for item in all_contracts}
         
         merged_info = [
-            {**item, **contract_map.get(item['mint'], {'channel': '', 'time': ''})}
+            {**item, **contract_map.get(item['mint'], {'channel': '', 'time': '', 'link': ''})}
             for item in token_info
         ]
         
@@ -53,11 +53,12 @@ def generate_message_chunks(token_info):
     for item in token_info:
         token_msg = (
             f"🚀 *{item.get('name', 'Unknown')}* - {item.get('symbol', '-')}\n"
-            f"🧬 Mint: `{item.get('mint', '-')}`\n"
-            f"💰 Market Cap: {item.get('market_cap', 'N/A')}\n"
+            f"💰 Market Cap: {item.get('market_cap', 'N/A')} - "
             f"📅 Time: {item.get('time', '')}\n"
-            f"📊 [MevX](https://mevx.io/solana/{item.get('mint', '-')}) "
-            f"🤖 [Z99Scans](https://t.me/z99bot?start={item.get('mint', '-')})\n"
+            f"📊 [Chart](https://mevx.io/solana/{item.get('mint', '-')}) "
+            f"🤖 [MevX](https://t.me/MevxTradingBot?start={item.get('mint', '-')}) "
+            f"💻 [Z99Scans](https://t.me/z99bot?start={item.get('mint', '-')}) "
+            f"📬 [Message]({item.get('link', '-')})\n"
             "--------------------------"
         )
         token_messages.append(token_msg)
